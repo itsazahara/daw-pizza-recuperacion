@@ -1,9 +1,9 @@
-INSERT INTO cliente (direccion, email, nombre, telefono) VALUES
-('Calle Mayor 1, Madrid', 'juan@email.com', 'Juan Pérez', '600111222'),
-('Avenida Principal 23, Barcelona', 'maria@email.com', 'María García', '611222333'),
-('Plaza Central 5, Valencia', 'carlos@email.com', 'Carlos Rodríguez', '622333444'),
-('Calle del Sol 12, Sevilla', 'ana@email.com', 'Ana Martínez', '633444555'),
-('Paseo de la Luna 8, Bilbao', 'pedro@email.com', 'Pedro Sánchez', '644555666');
+INSERT INTO cliente (email, nombre, telefono) VALUES
+('juan@email.com', 'Juan Pérez', '600111222'),
+('maria@email.com', 'María García', '611222333'),
+('carlos@email.com', 'Carlos Rodríguez', '622333444'),
+('ana@email.com', 'Ana Martínez', '633444555'),
+('pedro@email.com', 'Pedro Sánchez', '644555666');
 
 -- Insertar datos en la tabla pizza
 INSERT INTO pizza (descripcion, disponible, nombre, precio, vegana, vegetariana) VALUES
@@ -43,3 +43,21 @@ INSERT INTO pizza_pedido (cantidad, id_pedido, id_pizza, precio) VALUES
 (1, 4, 1, 10.50),
 (1, 5, 7, 14.00),
 (1, 5, 3, 11.50);
+
+-- Insertar datos en la tabla direccion
+INSERT INTO direccion (id, activa, calle, id_cliente, numero, poblacion) VALUES
+(1, b'1', 'Calle Falsa 123', 1, '123', 'Madrid'),
+(2, b'0', 'Avenida Siempre Viva 742', 1, '742', 'Barcelona'),
+(3, b'1', 'Calle de la Paz 45', 2, '45', 'Sevilla'),
+(4, b'0', 'Calle Mayor 89', 2, '89', 'Valencia');
+
+-- Insertar datos en la tabla oferta
+INSERT INTO oferta (id, activa, descuento, id_pizza, nombre) VALUES
+(1, b'0', 0.1, 2, 'Descuento Margarita'),
+(2, b'0', 0.15, 2, 'Promoción Pepperoni'),
+(3, b'0', 0.2, 3, 'Oferta Hawaiana'),
+(4, b'0', 0.05, 4, 'Descuento Vegetariana'),
+(5, b'0', 0.3, 5, 'Vegana Especial Oferta'),
+(6, b'0', 0.1, 1, 'Descuento Margarita'),
+(7, b'0', 0.1, 1, 'Descuento Margarita'),
+(8, b'0', 0.1, 2, 'Descuento Margarita');
