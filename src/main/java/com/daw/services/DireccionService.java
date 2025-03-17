@@ -34,6 +34,10 @@ public class DireccionService {
 	}
 
 	public Direccion save(Direccion direccion) {
+		Direccion direccionBD = this.direccionRepository.findById(direccion.getId()).get();
+		
+		direccion.setActiva(direccionBD.getActiva());
+		
 		return this.direccionRepository.save(direccion);
 	}
 

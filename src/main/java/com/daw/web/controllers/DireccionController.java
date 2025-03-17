@@ -57,7 +57,11 @@ public class DireccionController {
 	public ResponseEntity<Direccion> update(@PathVariable int idDireccion, @RequestBody Direccion direccion) {
 		if (idDireccion != direccion.getId()) {
 			return ResponseEntity.badRequest().build();
-		} else if (!this.direccionService.existsDireccion(idDireccion)) {
+		}
+		if (!this.direccionService.existsDireccion(idDireccion)) {
+			return ResponseEntity.notFound().build();
+		}
+		if (!this.clienteService.existsCliente(direccion.getIdCliente())) {
 			return ResponseEntity.notFound().build();
 		}
 

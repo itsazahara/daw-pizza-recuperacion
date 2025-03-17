@@ -67,10 +67,11 @@ public class OfertaService {
 
 	public Oferta marcarDesmarcarActivas(int idOferta) {
 		Oferta ofertaBD = this.ofertaRepository.findById(idOferta).get();
+		boolean estado = ofertaBD.getActiva();
 
 		this.marcarInactivas(ofertaBD.getIdPizza());
 
-		if (ofertaBD.getActiva()) {
+		if (estado) {
 			ofertaBD.setActiva(false);
 		} else {
 			ofertaBD.setActiva(true);
