@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.Pizza;
 import com.daw.services.PizzaService;
+import com.daw.services.dtos.PizzaDTO;
+import com.daw.services.mappers.PizzaMapper;
 
 @RestController
 @RequestMapping("/pizzas")
@@ -25,58 +27,61 @@ public class PizzaController {
 
 	@Autowired
 	private PizzaService pizzaService;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Pizza>> list() {
 		return ResponseEntity.ok(this.pizzaService.findAll());
 	}
-	
+
 	@GetMapping("/{idPizza}")
-	public ResponseEntity<Pizza> findById(@PathVariable int idPizza) {
-		Optional<Pizza> pizza = this.pizzaService.findById(idPizza);
-		if(pizza.isEmpty()) {
+	public ResponseEntity<PizzaDTO> findById(@PathVariable int idPizza) {
+		Optional<Pizza> pizzaOptional = this.pizzaService.findById(idPizza);
+
+		if (!pizzaOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		
-		return ResponseEntity.ok(pizza.get());
+
+		Pizza pizza = pizzaOptional.get();
+		PizzaDTO pizzaDTO = PizzaMapper.toDto(pizza);
+
+		return ResponseEntity.ok(pizzaDTO);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Pizza> create(@RequestBody Pizza pizza) {
 		return new ResponseEntity<Pizza>(this.pizzaService.create(pizza), HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/{idPizza}")
 	public ResponseEntity<Pizza> update(@PathVariable int idPizza, @RequestBody Pizza pizza) {
-		if(idPizza != pizza.getId()) {
+		if (idPizza != pizza.getId()) {
 			return ResponseEntity.badRequest().build();
-		}
-		else if(!this.pizzaService.existsPizza(idPizza)) {
+		} else if (!this.pizzaService.existsPizza(idPizza)) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		return ResponseEntity.ok(this.pizzaService.save(pizza));
 	}
-	
+
 	@DeleteMapping("/{idPizza}")
 	public ResponseEntity<Pizza> delete(@PathVariable int idPizza) {
-		if(this.pizzaService.delete(idPizza)) {
+		if (this.pizzaService.delete(idPizza)) {
 			return ResponseEntity.ok().build();
 		}
 
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping("/carta")
 	public ResponseEntity<List<Pizza>> carta() {
 		return ResponseEntity.ok(this.pizzaService.getCarta());
 	}
-	
+
 	@GetMapping("/nombre")
 	public ResponseEntity<List<Pizza>> findByNombre(@RequestParam String nombre) {
 		return ResponseEntity.ok(this.pizzaService.getByNombre(nombre));
 	}
-	
+
 	@GetMapping("/conIngrediente")
 	public ResponseEntity<List<Pizza>> findIngrediente(@RequestParam String ingrediente) {
 		return ResponseEntity.ok(this.pizzaService.getIngrediente(ingrediente));
@@ -86,38 +91,23 @@ public class PizzaController {
 	public ResponseEntity<List<Pizza>> findSinIngrediente(@RequestParam String ingrediente) {
 		return ResponseEntity.ok(this.pizzaService.getSinIngrediente(ingrediente));
 	}
-	
+
 	@PutMapping("/{idPizza}/precio")
-	public ResponseEntity<Pizza> actualizarPrecio(@PathVariable int idPizza, @RequestParam double nuevoPrecio){
-		if(this.pizzaService.existsPizza(idPizza)) {
+	public ResponseEntity<Pizza> actualizarPrecio(@PathVariable int idPizza, @RequestParam double nuevoPrecio) {
+		if (this.pizzaService.existsPizza(idPizza)) {
 			return ResponseEntity.ok(this.pizzaService.actualizarPrecio(idPizza, nuevoPrecio));
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@PutMapping("/{idPizza}/disponible")
-	public ResponseEntity<Pizza> marcarDesmarcarDisponible(@PathVariable int idPizza){
-		if(this.pizzaService.existsPizza(idPizza)) {
+	public ResponseEntity<Pizza> marcarDesmarcarDisponible(@PathVariable int idPizza) {
+		if (this.pizzaService.existsPizza(idPizza)) {
 			return ResponseEntity.ok(this.pizzaService.marcarDesmarcarDisponible(idPizza));
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
