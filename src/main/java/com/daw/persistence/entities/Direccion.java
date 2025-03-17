@@ -1,46 +1,44 @@
 package com.daw.persistence.entities;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "pizza")
+@Table(name = "direccion")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Pizza {
+public class Direccion {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 30)
-	private String nombre;
+	@Column(name = "id_cliente")
+	private Integer idCliente;
 	
 	@Column(length = 150)
-	private String descripcion;
+	private String calle;
 	
-	@Column(columnDefinition = "DECIMAL(5,2)")
-	private Double precio;
+	@Column(length = 30)
+	private String numero;
 	
-	private Boolean vegetariana;
-	private Boolean vegana;
-	private Boolean disponible;
+	@Column(length = 100)
+	private String poblacion;
 	
-	@OneToMany(mappedBy = "pizza")
-	@JsonIgnore
-	private List<Oferta> ofertas;
+	private Boolean activa;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id", insertable = false, updatable = false)
+	private Cliente cliente;
 
 }
