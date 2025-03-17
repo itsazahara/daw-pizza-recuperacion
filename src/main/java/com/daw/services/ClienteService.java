@@ -15,7 +15,6 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-	//CRUDs
 	public List<Cliente> findAll(){
 		return this.clienteRepository.findAll();
 	}
